@@ -1,13 +1,14 @@
 <?php
-$host = "caboose.proxy.rlwy.net";
-$user = "root";
-$password = "GXccXsOkyfFEJUBWDwaALivuPWPHwYgP";
-$port = 46551;
-$db = "railway"; // ajuste se o nome do schema for outro
+$host = getenv("MYSQLHOST");
+$port = getenv("MYSQLPORT");
+$db   = getenv("MYSQLDATABASE");
+$user = getenv("MYSQLUSER");
+$pass = getenv("MYSQLPASSWORD");
 
-$mysqli = new mysqli($host, $user, $password, $db, $port);
-
-if ($mysqli->connect_error) {
-    die("Falha na conexão: " . $mysqli->connect_error);
+try {
+    $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Conexão bem sucedida!"; // teste
+} catch (PDOException $e) {
+    die("Erro na conexão: " . $e->getMessage());
 }
-?>
