@@ -1091,16 +1091,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($page == 'usuarios')) {
                         </table>
                     </div>
 
-                    <!-- PAGINAÇÃO -->
+                   <!-- PAGINAÇÃO -->
                     <div style="margin:20px; text-align:center; color: white">
+                        <?php
+                        // Captura todos os filtros atuais da URL
+                        $queryString = $_GET;
+
+                        // Remove o parâmetro de página atual
+                        unset($queryString['pagina']);
+
+                        // Reconstrói a query string preservando os filtros
+                        $filtros = http_build_query($queryString);
+                        ?>
+
                         <?php if ($pagina > 1): ?>
-                            <a href="?pagina=<?= $pagina - 1 ?>&tipo_filtro=<?= $filtro ?>">« Anterior</a>
+                            <a href="?pagina=<?= $pagina - 1 ?>&<?= $filtros ?>">« Anterior</a>
                         <?php endif; ?>
+
                         Página <?= $pagina ?> de <?= $total_paginas ?>
+
                         <?php if ($pagina < $total_paginas): ?>
-                            <a href="?pagina=<?= $pagina + 1 ?>&tipo_filtro=<?= $filtro ?>">Próxima »</a>
+                            <a href="?pagina=<?= $pagina + 1 ?>&<?= $filtros ?>">Próxima »</a>
                         <?php endif; ?>
                     </div>
+
                 </div>
 
             <?php } elseif ($page == 'relatorios') { ?>
